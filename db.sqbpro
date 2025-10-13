@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="db.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="1"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="1557"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="0"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><table title="link" custom_title="0" dock_id="2" table="4,4:mainlink"/><dock_state state="000000ff00000000fd00000001000000020000024800000213fc0100000001fc00000000000002480000011e00fffffffa000000010100000002fb000000160064006f0063006b00420072006f00770073006500310000000000ffffffff0000000000000000fb000000160064006f0063006b00420072006f00770073006500320100000000ffffffff0000011e00ffffff000002480000000000000004000000040000000800000008fc00000000"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="glossary_item" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="29"/><column index="2" value="196"/><column index="3" value="387"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="link" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="29"/><column index="2" value="47"/><column index="3" value="208"/><column index="4" value="45"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1*">-- Очищаем таблицы (если нужно)
+DELETE FROM link;
+DELETE FROM glossary_item;
+
+-- Сбрасываем автоинкремент
+DELETE FROM sqlite_sequence WHERE name='glossary_item';
+DELETE FROM sqlite_sequence WHERE name='link';
+
+-- Вставляем 20 IT-терминов
+INSERT INTO glossary_item (name, description) VALUES
+('Алгоритм', 'Конечная последовательность шагов для решения задачи'),
+('Структура данных', 'Способ организации и хранения данных'),
+('База данных', 'Организованная коллекция структурированных данных'),
+('SQL', 'Язык структурированных запросов для работы с базами данных'),
+('API', 'Интерфейс программирования приложений'),
+('Облачные вычисления', 'Предоставление IT-ресурсов через интернет'),
+('Машинное обучение', 'Раздел ИИ, изучающий алгоритмы обучения'),
+('Нейронная сеть', 'Вычислительная система, имитирующая работу мозга'),
+('Контейнеризация', 'Технология упаковки приложений в изолированные среды'),
+('Микросервисы', 'Архитектурный стиль построения приложений'),
+('DevOps', 'Культура и практика автоматизации процессов разработки'),
+('Agile', 'Итеративный подход к управлению проектами'),
+('Блокчейн', 'Распределенная база данных транзакций'),
+('Криптография', 'Наука о методах шифрования информации'),
+('Кибербезопасность', 'Защита систем от цифровых атак'),
+('Большие данные', 'Обработка и анализ огромных объемов данных'),
+('Интернет вещей', 'Сеть физических устройств с подключением к интернету'),
+('Виртуализация', 'Создание виртуальных версий ресурсов'),
+('Компилятор', 'Программа, переводящая код в машинные инструкции'),
+('Операционная система', 'Программное обеспечение, управляющее ресурсами компьютера');
+
+-- Создаем графовую структуру с тремя типами связей
+INSERT INTO link (source, name, target) VALUES
+-- Центральный узел - Операционная система
+(20, 'включает', 19),
+(20, 'использует', 18),
+(20, 'связан с', 6),
+
+-- Основная цепочка разработки
+(1, 'использует', 2),
+(2, 'использует', 3),
+(3, 'использует', 4),
+(4, 'использует', 5),
+(5, 'связан с', 6),
+
+-- Облачные вычисления как хаб
+(6, 'использует', 9),
+(6, 'использует', 7),
+(6, 'использует', 16),
+(6, 'связан с', 17),
+
+-- Машинное обучение и данные
+(7, 'включает', 8),
+(7, 'использует', 16),
+(16, 'связан с', 17),
+
+-- Разработка и методологии
+(9, 'использует', 10),
+(10, 'использует', 11),
+(11, 'использует', 12),
+
+-- Безопасность и распределенные системы
+(12, 'связан с', 13),
+(13, 'использует', 14),
+(14, 'использует', 15),
+(15, 'связан с', 6),
+
+-- Обратные связи для связности графа
+(18, 'использует', 6),
+(19, 'использует', 1),
+(8, 'использует', 7),
+(10, 'связан с', 6),
+(17, 'использует', 15),
+(13, 'использует', 3),
+(11, 'использует', 9);</sql><current_tab id="0"/></tab_sql></sqlb_project>
